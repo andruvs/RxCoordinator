@@ -55,11 +55,12 @@ open class BaseCoordinator<RouteType, ResultType>: Coordinator {
     }
     
     @discardableResult
-    public func start() -> Observable<ResultType> {
+    open func start() -> Observable<ResultType> {
         return .never()
     }
     
-    public func navigate(to route: RouteType) -> TransitionState {
+    @discardableResult
+    open func navigate(to route: RouteType) -> TransitionState {
         return .empty()
     }
 
