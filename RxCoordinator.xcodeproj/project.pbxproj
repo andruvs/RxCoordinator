@@ -8,12 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		CA151FA42590E38B00B086C4 /* RxCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = CA151FA22590E38B00B086C4 /* RxCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA151FBC2590E5C400B086C4 /* NavigationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FAD2590E5C400B086C4 /* NavigationRouter.swift */; };
+		CA151FBD2590E5C400B086C4 /* AnyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FAE2590E5C400B086C4 /* AnyRouter.swift */; };
+		CA151FBE2590E5C400B086C4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FAF2590E5C400B086C4 /* Router.swift */; };
+		CA151FBF2590E5C400B086C4 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB02590E5C400B086C4 /* TabBarRouter.swift */; };
+		CA151FC02590E5C400B086C4 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB12590E5C400B086C4 /* BaseRouter.swift */; };
+		CA151FC12590E5C400B086C4 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB32590E5C400B086C4 /* Presentable.swift */; };
+		CA151FC22590E5C400B086C4 /* TransitionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB52590E5C400B086C4 /* TransitionEvent.swift */; };
+		CA151FC32590E5C400B086C4 /* TransitionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB62590E5C400B086C4 /* TransitionState.swift */; };
+		CA151FC42590E5C400B086C4 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB72590E5C400B086C4 /* Transition.swift */; };
+		CA151FC52590E5C400B086C4 /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */; };
+		CA151FC62590E5C400B086C4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */; };
+		CA151FC72590E5C400B086C4 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FBB2590E5C400B086C4 /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CA151F9F2590E38B00B086C4 /* RxCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA151FA22590E38B00B086C4 /* RxCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RxCoordinator.h; sourceTree = "<group>"; };
 		CA151FA32590E38B00B086C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA151FAD2590E5C400B086C4 /* NavigationRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationRouter.swift; sourceTree = "<group>"; };
+		CA151FAE2590E5C400B086C4 /* AnyRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyRouter.swift; sourceTree = "<group>"; };
+		CA151FAF2590E5C400B086C4 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		CA151FB02590E5C400B086C4 /* TabBarRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
+		CA151FB12590E5C400B086C4 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
+		CA151FB32590E5C400B086C4 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
+		CA151FB52590E5C400B086C4 /* TransitionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionEvent.swift; sourceTree = "<group>"; };
+		CA151FB62590E5C400B086C4 /* TransitionState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionState.swift; sourceTree = "<group>"; };
+		CA151FB72590E5C400B086C4 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
+		CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCoordinator.swift; sourceTree = "<group>"; };
+		CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
+		CA151FBB2590E5C400B086C4 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,10 +70,54 @@
 		CA151FA12590E38B00B086C4 /* RxCoordinator */ = {
 			isa = PBXGroup;
 			children = (
+				CA151FB22590E5C400B086C4 /* Common */,
+				CA151FB82590E5C400B086C4 /* Coordinator */,
+				CA151FAC2590E5C400B086C4 /* Router */,
+				CA151FB42590E5C400B086C4 /* Transition */,
 				CA151FA22590E38B00B086C4 /* RxCoordinator.h */,
 				CA151FA32590E38B00B086C4 /* Info.plist */,
 			);
 			path = RxCoordinator;
+			sourceTree = "<group>";
+		};
+		CA151FAC2590E5C400B086C4 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				CA151FAD2590E5C400B086C4 /* NavigationRouter.swift */,
+				CA151FAE2590E5C400B086C4 /* AnyRouter.swift */,
+				CA151FAF2590E5C400B086C4 /* Router.swift */,
+				CA151FB02590E5C400B086C4 /* TabBarRouter.swift */,
+				CA151FB12590E5C400B086C4 /* BaseRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		CA151FB22590E5C400B086C4 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				CA151FB32590E5C400B086C4 /* Presentable.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		CA151FB42590E5C400B086C4 /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				CA151FB52590E5C400B086C4 /* TransitionEvent.swift */,
+				CA151FB62590E5C400B086C4 /* TransitionState.swift */,
+				CA151FB72590E5C400B086C4 /* Transition.swift */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
+		CA151FB82590E5C400B086C4 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */,
+				CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */,
+				CA151FBB2590E5C400B086C4 /* Coordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -130,6 +198,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA151FC42590E5C400B086C4 /* Transition.swift in Sources */,
+				CA151FC22590E5C400B086C4 /* TransitionEvent.swift in Sources */,
+				CA151FBC2590E5C400B086C4 /* NavigationRouter.swift in Sources */,
+				CA151FC52590E5C400B086C4 /* AnyCoordinator.swift in Sources */,
+				CA151FBE2590E5C400B086C4 /* Router.swift in Sources */,
+				CA151FC02590E5C400B086C4 /* BaseRouter.swift in Sources */,
+				CA151FC32590E5C400B086C4 /* TransitionState.swift in Sources */,
+				CA151FBF2590E5C400B086C4 /* TabBarRouter.swift in Sources */,
+				CA151FC72590E5C400B086C4 /* Coordinator.swift in Sources */,
+				CA151FBD2590E5C400B086C4 /* AnyRouter.swift in Sources */,
+				CA151FC62590E5C400B086C4 /* BaseCoordinator.swift in Sources */,
+				CA151FC12590E5C400B086C4 /* Presentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +348,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = RxCoordinator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -276,6 +357,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = andruvs.RxCoordinator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -291,6 +373,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = RxCoordinator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -299,6 +382,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = andruvs.RxCoordinator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
