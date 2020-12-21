@@ -27,7 +27,7 @@ open class BaseCoordinator<RouteType, ResultType>: Coordinator {
         return self
     }
     
-    init(router: AnyRouter) {
+    public init(router: AnyRouter) {
         self.router = router
     }
     

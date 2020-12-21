@@ -8,22 +8,22 @@
 
 import UIKit
 
-public class BaseRouter<T: UIViewController>: NSObject, Router {
+open class BaseRouter<T: UIViewController>: NSObject, Router {
     public let rootViewController: T
     
-    init(viewController: T = T()) {
+    public init(viewController: T = T()) {
         rootViewController = viewController
     }
     
-    public var count: Int {
+    open var count: Int {
         return 1
     }
     
-    public var viewControllers: [Presentable] {
+    open var viewControllers: [Presentable] {
         return []
     }
     
-    public func perform(_ transition: Transition) -> TransitionState {
+    open func perform(_ transition: Transition) -> TransitionState {
         switch transition {
         case .present(let scene, let animated):
             let viewController = scene.toPresentable()
