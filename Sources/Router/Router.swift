@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol Router: AnyRouter {
+public protocol Router: AnyRouter {
     associatedtype UIViewControllerType: UIViewController
     
     var rootViewController: UIViewControllerType { get }
 }
 
 extension Router {
-    func toPresentable() -> UIViewController {
+    public func toPresentable() -> UIViewController {
         return rootViewController
     }
 }

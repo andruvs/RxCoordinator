@@ -8,19 +8,19 @@
 
 import UIKit
 
-class NavigationRouter: BaseRouter<UINavigationController> {
+public class NavigationRouter: BaseRouter<UINavigationController> {
     
     private var transitionEvent: TransitionEvent?
     
-    override var count: Int {
+    public override var count: Int {
         return rootViewController.viewControllers.count
     }
     
-    override var viewControllers: [Presentable] {
+    public override var viewControllers: [Presentable] {
         return rootViewController.viewControllers
     }
     
-    override func perform(_ transition: Transition) -> TransitionState {
+    public override func perform(_ transition: Transition) -> TransitionState {
         switch transition {
         case .setBarHidden(let hidden, let animated):
             rootViewController.setNavigationBarHidden(hidden, animated: animated)
@@ -138,7 +138,7 @@ class NavigationRouter: BaseRouter<UINavigationController> {
 
 extension NavigationRouter: UINavigationControllerDelegate {
     
-    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if let transitionEvent = transitionEvent {
             updateTransitionState(transitionEvent)
             self.transitionEvent = nil

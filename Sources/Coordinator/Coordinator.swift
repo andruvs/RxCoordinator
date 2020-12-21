@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol Coordinator: AnyCoordinator {
+public protocol Coordinator: AnyCoordinator {
     associatedtype CoordinationResult
     associatedtype CoordinationRoute
     
@@ -24,7 +24,7 @@ protocol Coordinator: AnyCoordinator {
 
 extension Coordinator {
     
-    func coordinate<T: Coordinator>(to coordinator: T) -> Observable<T.CoordinationResult> {
+    public func coordinate<T: Coordinator>(to coordinator: T) -> Observable<T.CoordinationResult> {
         store(coordinator: coordinator)
         return coordinator.start()
             .do(onCompleted: { [weak self] in
@@ -32,7 +32,7 @@ extension Coordinator {
             })
     }
     
-    func toPresentable() -> UIViewController {
+    public func toPresentable() -> UIViewController {
         return router.toPresentable()
     }
     

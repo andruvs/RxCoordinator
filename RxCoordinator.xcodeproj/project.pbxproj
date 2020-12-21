@@ -107,11 +107,11 @@
 		CA151FAC2590E5C400B086C4 /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				CA151FAD2590E5C400B086C4 /* NavigationRouter.swift */,
 				CA151FAE2590E5C400B086C4 /* AnyRouter.swift */,
 				CA151FAF2590E5C400B086C4 /* Router.swift */,
-				CA151FB02590E5C400B086C4 /* TabBarRouter.swift */,
 				CA151FB12590E5C400B086C4 /* BaseRouter.swift */,
+				CA151FAD2590E5C400B086C4 /* NavigationRouter.swift */,
+				CA151FB02590E5C400B086C4 /* TabBarRouter.swift */,
 			);
 			path = Router;
 			sourceTree = "<group>";
@@ -138,8 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */,
-				CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */,
 				CA151FBB2590E5C400B086C4 /* Coordinator.swift */,
+				CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";

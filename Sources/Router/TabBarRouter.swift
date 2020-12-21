@@ -9,13 +9,13 @@
 import UIKit
 import RxSwift
 
-class TabBarRouter: BaseRouter<UITabBarController> {
+public class TabBarRouter: BaseRouter<UITabBarController> {
     
-    override var count: Int {
+    public override var count: Int {
         return rootViewController.viewControllers?.count ?? 0
     }
     
-    override var viewControllers: [Presentable] {
+    public override var viewControllers: [Presentable] {
         return rootViewController.viewControllers ?? []
     }
     

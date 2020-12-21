@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AnyRouter: Presentable {
+public protocol AnyRouter: Presentable {
     var count: Int { get }
     var viewControllers: [Presentable] { get }
     @discardableResult

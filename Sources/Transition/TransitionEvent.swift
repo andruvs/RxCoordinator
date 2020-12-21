@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum TransitionEvent {
+internal enum TransitionEvent {
     case completed(_ scene: Presentable)
     case dismissed(_ scene: Presentable)
     

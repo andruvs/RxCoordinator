@@ -8,22 +8,22 @@
 
 import UIKit
 
-class BaseRouter<T: UIViewController>: NSObject, Router {
-    let rootViewController: T
+public class BaseRouter<T: UIViewController>: NSObject, Router {
+    public let rootViewController: T
     
     init(viewController: T = T()) {
         rootViewController = viewController
     }
     
-    var count: Int {
+    public var count: Int {
         return 1
     }
     
-    var viewControllers: [Presentable] {
-        return [rootViewController]
+    public var viewControllers: [Presentable] {
+        return []
     }
     
-    func perform(_ transition: Transition) -> TransitionState {
+    public func perform(_ transition: Transition) -> TransitionState {
         switch transition {
         case .present(let scene, let animated):
             let viewController = scene.toPresentable()
@@ -90,7 +90,7 @@ class BaseRouter<T: UIViewController>: NSObject, Router {
     
     private var states = [UIViewController: [TransitionState]]()
     
-    func createTransition(for scene: Presentable, transition: (() -> Void)?) -> TransitionState {
+    internal func createTransition(for scene: Presentable, transition: (() -> Void)?) -> TransitionState {
         let viewController = scene.toPresentable()
         let state = TransitionState()
         
@@ -105,7 +105,7 @@ class BaseRouter<T: UIViewController>: NSObject, Router {
         return state
     }
     
-    func updateTransitionState(_ event: TransitionEvent) {
+    internal func updateTransitionState(_ event: TransitionEvent) {
         let viewController = event.scene.toPresentable()
         var remove = false
         

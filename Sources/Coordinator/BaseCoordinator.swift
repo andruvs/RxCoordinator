@@ -9,18 +9,18 @@
 import Foundation
 import RxSwift
 
-class BaseCoordinator<RouteType, ResultType>: Coordinator {
-    typealias CoordinationRoute = RouteType
-    typealias CoordinationResult = ResultType
+public class BaseCoordinator<RouteType, ResultType>: Coordinator {
+    public typealias CoordinationRoute = RouteType
+    public typealias CoordinationResult = ResultType
     
-    weak var parent: AnyCoordinator?
+    public weak var parent: AnyCoordinator?
     private(set) var children = [AnyCoordinator]()
     
-    var router: AnyRouter
+    public var router: AnyRouter
     
-    let disposeBag = DisposeBag()
+    public let disposeBag = DisposeBag()
     
-    var root: AnyCoordinator? {
+    public var root: AnyCoordinator? {
         if let parent = parent {
             return parent.root
         }
@@ -35,7 +35,7 @@ class BaseCoordinator<RouteType, ResultType>: Coordinator {
         return children.firstIndex(where: { $0 === coordinator })
     }
 
-    func store(coordinator: AnyCoordinator) {
+    public func store(coordinator: AnyCoordinator) {
         if index(of: coordinator) != nil {
             return
         }
@@ -47,7 +47,7 @@ class BaseCoordinator<RouteType, ResultType>: Coordinator {
         children.append(coordinator)
     }
 
-    func free(coordinator: AnyCoordinator) {
+    public func free(coordinator: AnyCoordinator) {
         if let index = index(of: coordinator) {
             coordinator.parent = nil
             children.remove(at: index)
@@ -55,11 +55,11 @@ class BaseCoordinator<RouteType, ResultType>: Coordinator {
     }
     
     @discardableResult
-    func start() -> Observable<ResultType> {
+    public func start() -> Observable<ResultType> {
         return .never()
     }
     
-    func navigate(to route: RouteType) -> TransitionState {
+    public func navigate(to route: RouteType) -> TransitionState {
         return .empty()
     }
 

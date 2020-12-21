@@ -9,45 +9,45 @@
 import Foundation
 import RxSwift
 
-class TransitionState {
+public class TransitionState {
     
-    static func empty() -> TransitionState {
+    public static func empty() -> TransitionState {
         return TransionStateEmpty()
     }
     
     private let _completed = PublishSubject<Void>()
-    var completed: Observable<Void> {
+    public var completed: Observable<Void> {
         return _completed.asObservable()
     }
     
     private let _dismissed = PublishSubject<Void>()
-    var dismissed: Observable<Void> {
+    public var dismissed: Observable<Void> {
         return _dismissed.asObservable()
     }
     
-    func complete() {
+    internal func complete() {
         _completed.onCompleted()
     }
     
-    func dismiss() {
+    internal func dismiss() {
         complete()
         _dismissed.onCompleted()
     }
     
 }
 
-class TransionStateEmpty: TransitionState {
+public class TransionStateEmpty: TransitionState {
     
-    override var completed: Observable<Void> {
+    public override var completed: Observable<Void> {
         return .empty()
     }
     
-    override var dismissed: Observable<Void> {
+    public override var dismissed: Observable<Void> {
         return .empty()
     }
     
-    override func complete() {}
+    internal override func complete() {}
     
-    override func dismiss() {}
+    internal override func dismiss() {}
     
 }

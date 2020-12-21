@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Transition {
+public enum Transition {
     case setBarHidden(_ hidden: Bool, animated: Bool = true)
     case setRoot(_ scene: Presentable, hideBar: Bool = false, animated: Bool = true)
     case push(_ scene: Presentable, animated: Bool = true)

@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol Presentable {
+public protocol Presentable {
     func toPresentable() -> UIViewController
 }
 
 extension UIViewController: Presentable {
     
-    func toPresentable() -> UIViewController {
+    public func toPresentable() -> UIViewController {
         return self
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AnyCoordinator: AnyObject, Presentable {
+public protocol AnyCoordinator: AnyObject, Presentable {
     var parent: AnyCoordinator? { get set }
     var root: AnyCoordinator? { get }
     
