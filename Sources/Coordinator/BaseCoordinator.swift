@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-public class BaseCoordinator<RouteType, ResultType>: Coordinator {
+open class BaseCoordinator<RouteType, ResultType>: Coordinator {
     public typealias CoordinationRoute = RouteType
     public typealias CoordinationResult = ResultType
     
