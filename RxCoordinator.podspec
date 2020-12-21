@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "RxCoordinator"
-  spec.version      = "0.0.1"
+  spec.version      = "1.0.0"
   spec.summary      = "Coordinator pattern with RxSwift"
 
   spec.homepage     = "https://github.com/andruvs/RxCoordinator"
