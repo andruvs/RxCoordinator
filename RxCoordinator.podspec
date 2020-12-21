@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
   spec.summary      = "Coordinator pattern with RxSwift"
 
   spec.homepage     = "https://github.com/andruvs/RxCoordinator"
-  spec.license      = { :type => "MIT", :file => "LICENSE.md" }
+  spec.license      = { :type => "MIT", :file => "LICENSE" }
 
   spec.author             = { "andruvs" => "andruvs@gmail.com" }
 
