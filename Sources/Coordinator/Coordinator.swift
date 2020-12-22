@@ -1,9 +1,9 @@
 //
 //  AnyCoordinator.swift
-//  Articulation
+//  RxCoordinator
 //
 //  Created by Andrey Golovchak on 19/10/2020.
-//  Copyright © 2020 SCID. All rights reserved.
+//  Copyright © 2020 Andrew Golovchak. All rights reserved.
 //
 
 import Foundation
@@ -14,11 +14,7 @@ public protocol Coordinator: AnyCoordinator {
     associatedtype CoordinationRoute
     
     func coordinate<T: Coordinator>(to coordinator: T) -> Observable<T.CoordinationResult>
-    
-    @discardableResult
     func start() -> Observable<CoordinationResult>
-    
-    @discardableResult
     func navigate(to route: CoordinationRoute) -> TransitionState
 }
 

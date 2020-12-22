@@ -1,9 +1,9 @@
 //
 //  TransitionState.swift
-//  Articulation
+//  RxCoordinator
 //
 //  Created by Andrey Golovchak on 21.12.2020.
-//  Copyright © 2020 SCID. All rights reserved.
+//  Copyright © 2020 Andrew Golovchak. All rights reserved.
 //
 
 import Foundation
