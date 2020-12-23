@@ -21,6 +21,7 @@
 		CA151FC52590E5C400B086C4 /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */; };
 		CA151FC62590E5C400B086C4 /* BaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */; };
 		CA151FC72590E5C400B086C4 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FBB2590E5C400B086C4 /* Coordinator.swift */; };
+		CA15209525921C7A00B086C4 /* TransitionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA15209425921C7A00B086C4 /* TransitionTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCoordinator.swift; sourceTree = "<group>"; };
 		CA151FBA2590E5C400B086C4 /* BaseCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		CA151FBB2590E5C400B086C4 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		CA15209425921C7A00B086C4 /* TransitionTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionTask.swift; sourceTree = "<group>"; };
 		CFD08A2C5BC46B06CAAEA470 /* Pods-RxCoordinator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxCoordinator.release.xcconfig"; path = "Target Support Files/Pods-RxCoordinator/Pods-RxCoordinator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 		CA151FB42590E5C400B086C4 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
+				CA15209425921C7A00B086C4 /* TransitionTask.swift */,
 				CA151FB52590E5C400B086C4 /* TransitionEvent.swift */,
 				CA151FB62590E5C400B086C4 /* TransitionState.swift */,
 				CA151FB72590E5C400B086C4 /* Transition.swift */,
@@ -259,6 +262,7 @@
 				CA151FC72590E5C400B086C4 /* Coordinator.swift in Sources */,
 				CA151FBD2590E5C400B086C4 /* AnyRouter.swift in Sources */,
 				CA151FC62590E5C400B086C4 /* BaseCoordinator.swift in Sources */,
+				CA15209525921C7A00B086C4 /* TransitionTask.swift in Sources */,
 				CA151FC12590E5C400B086C4 /* Presentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
