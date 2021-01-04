@@ -16,4 +16,7 @@ public protocol AnyCoordinator: AnyObject, Presentable {
     
     func store(coordinator: AnyCoordinator)
     func free(coordinator: AnyCoordinator)
+    
+    func navigate(to routes: [Route]) -> TransitionState
+    func hasRoute(_ route: Route) -> Bool
 }

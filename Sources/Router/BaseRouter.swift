@@ -35,9 +35,7 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
         let task = TransitionTask(createTransition(for: transition))
         
         queue.append(task)
-        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
-            self?.checkQueue()
-        }
+        self.checkQueue()
         
         return task.state
     }

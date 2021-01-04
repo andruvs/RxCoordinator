@@ -11,7 +11,7 @@ import RxSwift
 
 public protocol Coordinator: AnyCoordinator {
     associatedtype CoordinationResult
-    associatedtype CoordinationRoute
+    associatedtype CoordinationRoute: Route
     
     func coordinate<T: Coordinator>(to coordinator: T) -> Observable<T.CoordinationResult>
     func start() -> Observable<CoordinationResult>

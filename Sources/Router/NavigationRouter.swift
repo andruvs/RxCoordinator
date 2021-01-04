@@ -188,10 +188,11 @@ extension NavigationRouter: UINavigationControllerDelegate {
     
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if !transitionEvents.isEmpty {
-            transitionEvents.forEach {
+            let events = transitionEvents
+            clearEvents()
+            events.forEach {
                 updateTransitionState($0)
             }
-            clearEvents()
         } else {
             if let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) {
                 if !navigationController.viewControllers.contains(fromViewController) {

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-open class BaseCoordinator<RouteType, ResultType>: Coordinator {
+open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
     public typealias CoordinationRoute = RouteType
     public typealias CoordinationResult = ResultType
     
@@ -59,9 +59,42 @@ open class BaseCoordinator<RouteType, ResultType>: Coordinator {
         return .never()
     }
     
+    public func hasRoute(_ route: Route) -> Bool {
+        return route is RouteType
+    }
+    
     @discardableResult
     open func navigate(to route: RouteType) -> TransitionState {
         return .empty()
+    }
+    
+    @discardableResult
+    public func navigate(to routes: [Route]) -> TransitionState {
+        var state: TransitionState = .empty()
+        var remainRoutes = routes
+        
+        routes.forEach { route in
+            if let route = route as? RouteType {
+                state = navigate(to: route)
+                remainRoutes = Array(remainRoutes.dropFirst())
+            } else {
+                var routeFound = false
+                
+                children.forEach { coordinator in
+                    if coordinator.hasRoute(route) {
+                        routeFound = true
+                        state = coordinator.navigate(to: remainRoutes)
+                        return
+                    }
+                }
+                
+                assert(routeFound, "Route \(route) not found")
+                
+                return
+            }
+        }
+        
+        return state
     }
 
 }
