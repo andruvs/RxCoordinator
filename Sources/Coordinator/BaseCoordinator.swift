@@ -73,24 +73,23 @@ open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
         var state: TransitionState = .empty()
         var remainRoutes = routes
         
-        routes.forEach { route in
+        for route in routes {
             if let route = route as? RouteType {
                 state = navigate(to: route)
                 remainRoutes = Array(remainRoutes.dropFirst())
             } else {
                 var routeFound = false
                 
-                children.forEach { coordinator in
+                for coordinator in children {
                     if coordinator.hasRoute(route) {
                         routeFound = true
                         state = coordinator.navigate(to: remainRoutes)
-                        return
+                        break
                     }
                 }
                 
                 assert(routeFound, "Route \(route) not found")
-                
-                return
+                break
             }
         }
         

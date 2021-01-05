@@ -31,8 +31,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
     internal override func createTransition(for transition: Transition) -> TransitionBlock? {
         switch transition {
         case .setBarHidden(let hidden, let animated):
-            return { [weak self] _ in
+            return { [weak self] state in
                 self?.rootViewController.setNavigationBarHidden(hidden, animated: animated)
+                state.complete()
                 return true
             }
         case .setRoot(let scene, let hideBar, let animated):
@@ -55,7 +56,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 }
                 
                 self.storeEvent(.completed(scene))
-                self.rootViewController.setViewControllers([viewController], animated: animated)
+                self.rootViewController.setViewControllers([viewController], animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 self.rootViewController.isNavigationBarHidden = hideBar
                 
                 return true
@@ -73,7 +76,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 self.storeState(state, for: scene)
             
                 self.storeEvent(.completed(scene))
-                self.rootViewController.pushViewController(viewController, animated: animated)
+                self.rootViewController.pushViewController(viewController, animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 
                 return true
             }
@@ -102,7 +107,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 viewControllers.append(viewController)
                 
                 self.storeEvent(.completed(scene))
-                self.rootViewController.setViewControllers(viewControllers, animated: animated)
+                self.rootViewController.setViewControllers(viewControllers, animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 
                 return true
             }
@@ -117,7 +124,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 self.storeState(state, for: viewController)
                 
                 self.storeEvent(.dismissed(viewController))
-                self.rootViewController.popViewController(animated: animated)
+                self.rootViewController.popViewController(animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 
                 return true
             }
@@ -144,7 +153,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                     self.storeEvent(.dismissed($0))
                 }
                 
-                self.rootViewController.popToViewController(viewController, animated: animated)
+                self.rootViewController.popToViewController(viewController, animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 
                 return true
             }
@@ -166,7 +177,9 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                     self.storeEvent(.dismissed($0))
                 }
                 
-                self.rootViewController.popToRootViewController(animated: animated)
+                self.rootViewController.popToRootViewController(animated: animated) { [weak self] in
+                    self?.handleEvents()
+                }
                 
                 return true
             }
@@ -182,22 +195,24 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
     private func storeEvent(_ event: TransitionEvent) {
         transitionEvents.append(event)
     }
-}
-
-extension NavigationRouter: UINavigationControllerDelegate {
     
-    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+    private func handleEvents() {
         if !transitionEvents.isEmpty {
             let events = transitionEvents
             clearEvents()
             events.forEach {
                 updateTransitionState($0)
             }
-        } else {
-            if let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) {
-                if !navigationController.viewControllers.contains(fromViewController) {
-                    updateTransitionState(.dismissed(fromViewController))
-                }
+        }
+    }
+}
+
+extension NavigationRouter: UINavigationControllerDelegate {
+    
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        if let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) {
+            if !navigationController.viewControllers.contains(fromViewController) {
+                updateTransitionState(.dismissed(fromViewController))
             }
         }
     }
