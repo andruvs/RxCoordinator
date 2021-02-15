@@ -11,6 +11,7 @@ import UIKit
 public protocol Router: AnyRouter {
     associatedtype UIViewControllerType: UIViewController
     
+    /// Root controller responsible for navigation
     var rootViewController: UIViewControllerType { get }
 }
 

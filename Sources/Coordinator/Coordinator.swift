@@ -13,9 +13,14 @@ public protocol Coordinator: AnyCoordinator {
     associatedtype CoordinationResult
     associatedtype CoordinationRoute: Route
     
+    /// Store and starts child coordinator
     func coordinate<T: Coordinator>(to coordinator: T) -> Observable<T.CoordinationResult>
+    
+    /// Starts the current coordinator
     func start() -> Observable<CoordinationResult>
-    func navigate(to route: CoordinationRoute) -> TransitionState
+    
+    /// Navigate to specified route
+    func navigate(to route: CoordinationRoute) -> Completable
 }
 
 extension Coordinator {
@@ -26,10 +31,6 @@ extension Coordinator {
             .do(onCompleted: { [weak self] in
                 self?.free(coordinator: coordinator)
             })
-    }
-    
-    public func toPresentable() -> UIViewController {
-        return router.toPresentable()
     }
     
 }

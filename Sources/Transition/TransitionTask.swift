@@ -7,17 +7,37 @@
 //
 
 import Foundation
+import RxSwift
 
-typealias TransitionBlock = ((TransitionState) -> Bool)
+typealias TransitionClosure = ((TransitionState) -> Void)
 
-class TransitionTask {
+internal class TransitionTask {
     
-    let state: TransitionState
-    let transition: TransitionBlock?
+    private let disposeBag = DisposeBag()
     
-    init(_ transition: TransitionBlock?) {
-        self.transition = transition
-        self.state = TransitionState()
+    let state = TransitionState()
+    let closure: TransitionClosure?
+    
+    init(_ closure: TransitionClosure?) {
+        self.closure = closure
+    }
+    
+    func execute(_ completion: (() -> Void)?) {
+        
+        guard let closure = closure else {
+            completion?()
+            return
+        }
+        
+        state.completed
+            .subscribe {
+                completion?()
+            }
+            .disposed(by: disposeBag)
+        
+        DispatchQueue.main.async { [unowned state] in
+            closure(state)
+        }
     }
     
 }

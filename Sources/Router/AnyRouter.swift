@@ -7,10 +7,19 @@
 //
 
 import Foundation
+import RxSwift
 
 public protocol AnyRouter: Presentable {
+    /// The number of controllers in this router
     var count: Int { get }
+    
+    /// Array of controllers in the root controller
     var viewControllers: [Presentable] { get }
+    
+    /// Dismissed controllers
+    var dismissed: Observable<Presentable> { get }
+    
+    /// Performs transition segue
     @discardableResult
-    func perform(_ transition: Transition) -> TransitionState
+    func perform(_ transition: Transition) -> Completable
 }

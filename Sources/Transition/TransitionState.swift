@@ -16,38 +16,28 @@ public class TransitionState {
     }
     
     private let _completed = PublishSubject<Void>()
-    public var completed: Observable<Void> {
-        return _completed.asObservable()
+    public var completed: Completable {
+        return _completed.ignoreElements()
     }
     
-    private let _dismissed = PublishSubject<Void>()
-    public var dismissed: Observable<Void> {
-        return _dismissed.asObservable()
-    }
-    
-    internal func complete() {
+    internal func onCompleted() {
         _completed.onCompleted()
     }
     
-    internal func dismiss() {
-        complete()
-        _dismissed.onCompleted()
+    internal func onError(_ error: TransitionError) {
+        _completed.onError(error)
     }
     
 }
 
 public class TransionStateEmpty: TransitionState {
     
-    public override var completed: Observable<Void> {
+    public override var completed: Completable {
         return .empty()
     }
     
-    public override var dismissed: Observable<Void> {
-        return .empty()
-    }
+    internal override func onCompleted() {}
     
-    internal override func complete() {}
-    
-    internal override func dismiss() {}
+    internal override func onError(_ error: TransitionError) {}
     
 }

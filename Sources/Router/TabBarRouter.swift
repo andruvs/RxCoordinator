@@ -19,4 +19,72 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
         return rootViewController.viewControllers ?? []
     }
     
+    internal override func createClosure(for transition: Transition) -> TransitionClosure? {
+        switch transition {
+        case .set(let scenes, let animated):
+            return { [weak self] state in
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
+                
+                let viewControllers = scenes.map { $0.toPresentable() }
+                let dismissedViewControllers = self.rootViewController.viewControllers
+                
+                self.rootViewController.setViewControllers(viewControllers, animated: animated)
+                
+                if let dismissedViewControllers = dismissedViewControllers {
+                    self.onDismissed(dismissedViewControllers)
+                }
+                
+                state.onCompleted()
+            }
+        case .setTab(let scene, let index, let animated):
+            return { [weak self] state in
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
+                
+                var viewControllers = self.rootViewController.viewControllers ?? []
+                
+                if index >= viewControllers.count {
+                    state.onError(.outOfBoundaries)
+                    return
+                }
+                
+                let viewController = scene.toPresentable()
+                let dismissedViewController = viewControllers[index]
+                
+                viewControllers[index] = viewController
+                
+                self.rootViewController.setViewControllers(viewControllers, animated: animated)
+                
+                self.onDismissed(dismissedViewController)
+                
+                state.onCompleted()
+            }
+        case .selectTab(let index):
+            return { [weak self] state in
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
+                
+                let count = self.rootViewController.viewControllers?.count ?? 0
+                
+                if index >= count {
+                    state.onError(.outOfBoundaries)
+                    return
+                }
+                
+                self.rootViewController.selectedIndex = index
+                
+                state.onCompleted()
+            }
+        default:
+            return super.createClosure(for: transition)
+        }
+    }
+    
 }

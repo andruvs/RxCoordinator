@@ -11,11 +11,7 @@ import RxSwift
 
 public class BaseRouter<T: UIViewController>: NSObject, Router {
     
-    private let disposeBag = DisposeBag()
-    
-    private var states = [UIViewController: [TransitionState]]()
-    private var queue = [TransitionTask]()
-    private var isRunning = false
+    private let queue = TransitionQueue()
     
     public let rootViewController: T
     
@@ -31,28 +27,34 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
         return []
     }
     
-    public func perform(_ transition: Transition) -> TransitionState {
-        let task = TransitionTask(createTransition(for: transition))
+    private let _dismissed = PublishSubject<Presentable>()
+    public var dismissed: Observable<Presentable> {
+        return _dismissed.asObservable()
+    }
+    
+    public func perform(_ transition: Transition) -> Completable {
+        let closure = createClosure(for: transition)
+        let task = TransitionTask(closure)
         
         queue.append(task)
         
-        DispatchQueue.main.async { [weak self] in
-            self?.checkQueue()
-        }
-        
-        return task.state
+        return task.state.completed
     }
     
-    internal func createTransition(for transition: Transition) -> TransitionBlock? {
+    internal func createClosure(for transition: Transition) -> TransitionClosure? {
         switch transition {
         case .present(let scene, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 let viewController = scene.toPresentable()
                 
                 if let presentedViewController = self.rootViewController.presentedViewController, presentedViewController === viewController {
-                    return false
+                    state.onError(.alreadyPresented)
+                    return
                 }
                 
                 viewController.modalPresentationCapturesStatusBarAppearance = true
@@ -62,22 +64,22 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
                     viewController.isModalInPresentation = true
                 }
                 
-                self.storeState(state, for: scene)
-                
-                self.rootViewController.present(viewController, animated: animated) { [weak self] in
-                    self?.updateTransitionState(.completed(scene))
+                self.rootViewController.present(viewController, animated: animated) {
+                    state.onCompleted()
                 }
-            
-                return true
             }
         case .modal(let scene, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 let viewController = scene.toPresentable()
                 
                 if let presentedViewController = self.rootViewController.presentedViewController, presentedViewController === viewController {
-                    return false
+                    state.onError(.alreadyPresented)
+                    return
                 }
                 
                 viewController.modalPresentationCapturesStatusBarAppearance = true
@@ -91,84 +93,39 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
                     viewController.isModalInPresentation = true
                 }
                 
-                self.storeState(state, for: scene)
-                
-                self.rootViewController.present(viewController, animated: animated) { [weak self] in
-                    self?.updateTransitionState(.completed(scene))
+                self.rootViewController.present(viewController, animated: animated) {
+                    state.onCompleted()
                 }
-            
-                return true
             }
         case .dismiss(let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 guard let viewController = self.rootViewController.presentedViewController else {
-                    return false
+                    state.onError(.nothingPresented)
+                    return
                 }
-                
-                self.storeState(state, for: viewController)
                 
                 self.rootViewController.dismiss(animated: animated) { [weak self] in
-                    self?.updateTransitionState(.dismissed(viewController))
+                    self?.onDismissed(viewController)
+                    state.onCompleted()
                 }
-            
-                return true
             }
         default:
             return nil
         }
     }
     
-    private func checkQueue() {
-        if isRunning || queue.isEmpty {
-            return
-        }
-        
-        isRunning = true
-        
-        let task = queue.removeFirst()
-        
-        task.state.completed
-            .subscribe(onCompleted: { [weak self] in
-                self?.isRunning = false
-                self?.checkQueue()
-            })
-            .disposed(by: disposeBag)
-        
-        let result = task.transition?(task.state) ?? false
-        
-        if !result {
-            task.state.dismiss()
-        }
+    internal func onDismissed(_ scene: Presentable) {
+        _dismissed.onNext(scene)
     }
     
-    internal func storeState(_ state: TransitionState, for scene: Presentable) {
-        let viewController = scene.toPresentable()
-
-        var newStates = states[viewController] ?? [TransitionState]()
-        newStates.append(state)
-        states[viewController] = newStates
-    }
-    
-    internal func updateTransitionState(_ event: TransitionEvent) {
-        let viewController = event.scene.toPresentable()
-        var remove = false
-        
-        if let states = states[viewController] {
-            states.forEach { state in
-                switch event {
-                case .completed:
-                    state.complete()
-                case .dismissed:
-                    state.dismiss()
-                    remove = true
-                }
-            }
-        }
-        
-        if remove {
-            states.removeValue(forKey: viewController)
+    internal func onDismissed(_ scenes: [Presentable]) {
+        for scene in scenes {
+            _dismissed.onNext(scene)
         }
     }
 }

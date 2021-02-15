@@ -14,44 +14,14 @@ open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
     public typealias CoordinationResult = ResultType
     
     public weak var parent: AnyCoordinator?
-    private(set) var children = [AnyCoordinator]()
+    public var children = [AnyCoordinator]()
     
     public var router: AnyRouter
     
     public let disposeBag = DisposeBag()
     
-    public var root: AnyCoordinator? {
-        if let parent = parent {
-            return parent.root
-        }
-        return self
-    }
-    
     public init(router: AnyRouter) {
         self.router = router
-    }
-    
-    private func index(of coordinator: AnyCoordinator) -> Int? {
-        return children.firstIndex(where: { $0 === coordinator })
-    }
-
-    public func store(coordinator: AnyCoordinator) {
-        if index(of: coordinator) != nil {
-            return
-        }
-        if coordinator.parent != nil {
-            coordinator.parent?.free(coordinator: coordinator)
-        }
-        coordinator.parent = self
-
-        children.append(coordinator)
-    }
-
-    public func free(coordinator: AnyCoordinator) {
-        if let index = index(of: coordinator) {
-            coordinator.parent = nil
-            children.remove(at: index)
-        }
     }
     
     @discardableResult
@@ -64,18 +34,18 @@ open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
     }
     
     @discardableResult
-    open func navigate(to route: RouteType) -> TransitionState {
+    open func navigate(to route: RouteType) -> Completable {
         return .empty()
     }
     
     @discardableResult
-    public func navigate(to routes: [Route]) -> TransitionState {
-        var state: TransitionState = .empty()
+    public func navigate(to routes: [Route]) -> Completable {
+        var completed: Completable = .empty()
         var remainRoutes = routes
         
         for route in routes {
             if let route = route as? RouteType {
-                state = navigate(to: route)
+                completed = navigate(to: route)
                 remainRoutes = Array(remainRoutes.dropFirst())
             } else {
                 var routeFound = false
@@ -83,7 +53,7 @@ open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
                 for coordinator in children {
                     if coordinator.hasRoute(route) {
                         routeFound = true
-                        state = coordinator.navigate(to: remainRoutes)
+                        completed = coordinator.navigate(to: remainRoutes)
                         break
                     }
                 }
@@ -93,7 +63,7 @@ open class BaseCoordinator<RouteType: Route, ResultType>: Coordinator {
             }
         }
         
-        return state
+        return completed
     }
 
 }

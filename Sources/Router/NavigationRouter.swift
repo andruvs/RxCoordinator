@@ -7,10 +7,9 @@
 //
 
 import UIKit
+import RxSwift
 
 public class NavigationRouter: BaseRouter<UINavigationController> {
-    
-    private var transitionEvents = [TransitionEvent]()
     
     public override var count: Int {
         return rootViewController.viewControllers.count
@@ -20,7 +19,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
         return rootViewController.viewControllers
     }
     
-    public override func perform(_ transition: Transition) -> TransitionState {
+    public override func perform(_ transition: Transition) -> Completable {
         if rootViewController.delegate == nil {
             rootViewController.delegate = self
         }
@@ -28,181 +27,192 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
         return super.perform(transition)
     }
     
-    internal override func createTransition(for transition: Transition) -> TransitionBlock? {
+    internal override func createClosure(for transition: Transition) -> TransitionClosure? {
         switch transition {
         case .setBarHidden(let hidden, let animated):
             return { [weak self] state in
-                self?.rootViewController.setNavigationBarHidden(hidden, animated: animated)
-                state.complete()
-                return true
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
+                
+                self.rootViewController.setNavigationBarHidden(hidden, animated: animated)
+                
+                state.onCompleted()
             }
         case .setRoot(let scene, let hideBar, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
             
                 let viewController = scene.toPresentable()
                 
                 if viewController is UINavigationController {
-                    return false
+                    state.onError(.isNavigationController)
+                    return
                 }
                 
-                self.storeState(state, for: scene)
+                let dismissedViewControllers = self.rootViewController.viewControllers
                 
-                let viewControllers = self.rootViewController.viewControllers
-                if viewControllers.count > 0 {
-                    viewControllers.forEach {
-                        self.storeEvent(.dismissed($0))
-                    }
-                }
-                
-                self.storeEvent(.completed(scene))
                 self.rootViewController.setViewControllers([viewController], animated: animated) { [weak self] in
-                    self?.handleEvents()
+                    self?.onDismissed(dismissedViewControllers)
+                    state.onCompleted()
                 }
-                self.rootViewController.isNavigationBarHidden = hideBar
                 
-                return true
+                self.rootViewController.isNavigationBarHidden = hideBar
+            }
+        case .set(let scenes, let animated):
+            return { [weak self] state in
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
+                
+                var viewControllers = [UIViewController]()
+                
+                for scene in scenes {
+                    let viewController = scene.toPresentable()
+                    
+                    if viewController is UINavigationController {
+                        state.onError(.isNavigationController)
+                        return
+                    }
+                    
+                    viewControllers.append(viewController)
+                }
+                
+                let dismissedViewControllers = self.rootViewController.viewControllers
+                
+                self.rootViewController.setViewControllers(viewControllers, animated: animated) { [weak self] in
+                    self?.onDismissed(dismissedViewControllers)
+                    state.onCompleted()
+                }
             }
         case .push(let scene, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 let viewController = scene.toPresentable()
                 
-                if viewController is UINavigationController || self.rootViewController.viewControllers.contains(viewController) {
-                    return false
+                if viewController is UINavigationController {
+                    state.onError(.isNavigationController)
+                    return
                 }
                 
-                self.storeState(state, for: scene)
+                if self.rootViewController.viewControllers.contains(viewController) {
+                    state.onError(.alreadyPushed)
+                    return
+                }
             
-                self.storeEvent(.completed(scene))
-                self.rootViewController.pushViewController(viewController, animated: animated) { [weak self] in
-                    self?.handleEvents()
+                self.rootViewController.pushViewController(viewController, animated: animated) {
+                    state.onCompleted()
                 }
-                
-                return true
             }
         case .replaceLast(let scene, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 var viewControllers = self.rootViewController.viewControllers
                 
                 if viewControllers.count == 0 {
-                    return false
+                    state.onCompleted()
+                    return
                 }
                 
                 let viewController = scene.toPresentable()
                 
-                if viewController is UINavigationController || viewControllers.contains(viewController) {
-                    return false
+                if viewController is UINavigationController {
+                    state.onError(.isNavigationController)
+                    return
                 }
                 
-                self.storeState(state, for: scene)
-                
-                if let poppedViewController = viewControllers.popLast() {
-                    self.storeEvent(.dismissed(poppedViewController))
+                if viewControllers.contains(viewController) {
+                    state.onError(.alreadyPushed)
+                    return
                 }
+                
+                let dismissedViewController = viewControllers.popLast()
                 
                 viewControllers.append(viewController)
                 
-                self.storeEvent(.completed(scene))
                 self.rootViewController.setViewControllers(viewControllers, animated: animated) { [weak self] in
-                    self?.handleEvents()
+                    if let dismissedViewController = dismissedViewController {
+                        self?.onDismissed(dismissedViewController)
+                    }
+                    state.onCompleted()
                 }
-                
-                return true
             }
         case .pop(let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
-                
-                guard let viewController = self.rootViewController.viewControllers.last else {
-                    return false
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
                 }
                 
-                self.storeState(state, for: viewController)
+                guard let dismissedViewController = self.rootViewController.viewControllers.last else {
+                    state.onCompleted()
+                    return
+                }
                 
-                self.storeEvent(.dismissed(viewController))
                 self.rootViewController.popViewController(animated: animated) { [weak self] in
-                    self?.handleEvents()
+                    self?.onDismissed(dismissedViewController)
+                    state.onCompleted()
                 }
-                
-                return true
             }
         case .popTo(let scene, let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 let viewController = scene.toPresentable()
                 
                 guard let index = self.rootViewController.viewControllers.lastIndex(of: viewController) else {
-                    return false
+                    state.onError(.notFound)
+                    return
                 }
                 
-                let poppedViewControllers = self.rootViewController.viewControllers.suffix(from: index.advanced(by: 1))
-                if poppedViewControllers.isEmpty {
-                    return false
-                }
-                
-                if let lastViewController = poppedViewControllers.last {
-                    self.storeState(state, for: lastViewController)
-                }
-                
-                poppedViewControllers.forEach {
-                    self.storeEvent(.dismissed($0))
+                let dismissedViewControllers = self.rootViewController.viewControllers.suffix(from: index.advanced(by: 1))
+                if dismissedViewControllers.isEmpty {
+                    state.onCompleted()
+                    return
                 }
                 
                 self.rootViewController.popToViewController(viewController, animated: animated) { [weak self] in
-                    self?.handleEvents()
+                    self?.onDismissed(Array(dismissedViewControllers))
+                    state.onCompleted()
                 }
-                
-                return true
             }
         case .popToRoot(let animated):
             return { [weak self] state in
-                guard let self = self else { return false }
+                guard let self = self else {
+                    state.onError(.inconsistentState)
+                    return
+                }
                 
                 if self.rootViewController.viewControllers.count < 2 {
-                    return false
+                    state.onCompleted()
+                    return
                 }
                 
-                let poppedViewControllers = self.rootViewController.viewControllers.dropFirst()
-                
-                if let lastViewController = poppedViewControllers.last {
-                    self.storeState(state, for: lastViewController)
-                }
-                
-                poppedViewControllers.forEach {
-                    self.storeEvent(.dismissed($0))
-                }
+                let dismissedViewControllers = self.rootViewController.viewControllers.dropFirst()
                 
                 self.rootViewController.popToRootViewController(animated: animated) { [weak self] in
-                    self?.handleEvents()
+                    self?.onDismissed(Array(dismissedViewControllers))
+                    state.onCompleted()
                 }
-                
-                return true
             }
         default:
-            return super.createTransition(for: transition)
-        }
-    }
-    
-    private func clearEvents() {
-        transitionEvents.removeAll()
-    }
-    
-    private func storeEvent(_ event: TransitionEvent) {
-        transitionEvents.append(event)
-    }
-    
-    private func handleEvents() {
-        if !transitionEvents.isEmpty {
-            let events = transitionEvents
-            clearEvents()
-            events.forEach {
-                updateTransitionState($0)
-            }
+            return super.createClosure(for: transition)
         }
     }
 }
@@ -212,7 +222,7 @@ extension NavigationRouter: UINavigationControllerDelegate {
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         if let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) {
             if !navigationController.viewControllers.contains(fromViewController) {
-                updateTransitionState(.dismissed(fromViewController))
+                self.onDismissed(fromViewController)
             }
         }
     }

@@ -15,7 +15,6 @@
 		CA151FBF2590E5C400B086C4 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB02590E5C400B086C4 /* TabBarRouter.swift */; };
 		CA151FC02590E5C400B086C4 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB12590E5C400B086C4 /* BaseRouter.swift */; };
 		CA151FC12590E5C400B086C4 /* Presentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB32590E5C400B086C4 /* Presentable.swift */; };
-		CA151FC22590E5C400B086C4 /* TransitionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB52590E5C400B086C4 /* TransitionEvent.swift */; };
 		CA151FC32590E5C400B086C4 /* TransitionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB62590E5C400B086C4 /* TransitionState.swift */; };
 		CA151FC42590E5C400B086C4 /* Transition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB72590E5C400B086C4 /* Transition.swift */; };
 		CA151FC52590E5C400B086C4 /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */; };
@@ -23,6 +22,8 @@
 		CA151FC72590E5C400B086C4 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA151FBB2590E5C400B086C4 /* Coordinator.swift */; };
 		CA15209525921C7A00B086C4 /* TransitionTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA15209425921C7A00B086C4 /* TransitionTask.swift */; };
 		CA3EBA8B259B5AB10029C93D /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3EBA8A259B5AB10029C93D /* Route.swift */; };
+		CA798EC225D69D5500BE5654 /* TransitionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA798EC125D69D5500BE5654 /* TransitionError.swift */; };
+		CA798EC625DA733000BE5654 /* TransitionQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA798EC525DA733000BE5654 /* TransitionQueue.swift */; };
 		CAB5E35A25A49299008ECA20 /* UINavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB5E35925A49299008ECA20 /* UINavigationController.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +39,6 @@
 		CA151FB02590E5C400B086C4 /* TabBarRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
 		CA151FB12590E5C400B086C4 /* BaseRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
 		CA151FB32590E5C400B086C4 /* Presentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Presentable.swift; sourceTree = "<group>"; };
-		CA151FB52590E5C400B086C4 /* TransitionEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionEvent.swift; sourceTree = "<group>"; };
 		CA151FB62590E5C400B086C4 /* TransitionState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransitionState.swift; sourceTree = "<group>"; };
 		CA151FB72590E5C400B086C4 /* Transition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transition.swift; sourceTree = "<group>"; };
 		CA151FB92590E5C400B086C4 /* AnyCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCoordinator.swift; sourceTree = "<group>"; };
@@ -46,6 +46,8 @@
 		CA151FBB2590E5C400B086C4 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		CA15209425921C7A00B086C4 /* TransitionTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionTask.swift; sourceTree = "<group>"; };
 		CA3EBA8A259B5AB10029C93D /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		CA798EC125D69D5500BE5654 /* TransitionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionError.swift; sourceTree = "<group>"; };
+		CA798EC525DA733000BE5654 /* TransitionQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionQueue.swift; sourceTree = "<group>"; };
 		CAB5E35925A49299008ECA20 /* UINavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationController.swift; sourceTree = "<group>"; };
 		CFD08A2C5BC46B06CAAEA470 /* Pods-RxCoordinator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxCoordinator.release.xcconfig"; path = "Target Support Files/Pods-RxCoordinator/Pods-RxCoordinator.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,9 +136,10 @@
 		CA151FB42590E5C400B086C4 /* Transition */ = {
 			isa = PBXGroup;
 			children = (
+				CA798EC525DA733000BE5654 /* TransitionQueue.swift */,
 				CA15209425921C7A00B086C4 /* TransitionTask.swift */,
-				CA151FB52590E5C400B086C4 /* TransitionEvent.swift */,
 				CA151FB62590E5C400B086C4 /* TransitionState.swift */,
+				CA798EC125D69D5500BE5654 /* TransitionError.swift */,
 				CA151FB72590E5C400B086C4 /* Transition.swift */,
 			);
 			path = Transition;
@@ -265,11 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA798EC625DA733000BE5654 /* TransitionQueue.swift in Sources */,
 				CA151FC42590E5C400B086C4 /* Transition.swift in Sources */,
-				CA151FC22590E5C400B086C4 /* TransitionEvent.swift in Sources */,
 				CA151FBC2590E5C400B086C4 /* NavigationRouter.swift in Sources */,
 				CA151FC52590E5C400B086C4 /* AnyCoordinator.swift in Sources */,
 				CA151FBE2590E5C400B086C4 /* Router.swift in Sources */,
+				CA798EC225D69D5500BE5654 /* TransitionError.swift in Sources */,
 				CA3EBA8B259B5AB10029C93D /* Route.swift in Sources */,
 				CAB5E35A25A49299008ECA20 /* UINavigationController.swift in Sources */,
 				CA151FC02590E5C400B086C4 /* BaseRouter.swift in Sources */,
