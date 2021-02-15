@@ -30,9 +30,9 @@ internal class TransitionTask {
         }
         
         state.completed
-            .subscribe {
+            .subscribe(onCompleted: {
                 completion?()
-            }
+            })
             .disposed(by: disposeBag)
         
         DispatchQueue.main.async { [unowned state] in

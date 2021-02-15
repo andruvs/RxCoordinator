@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 
-public protocol AnyCoordinator: AnyObject, Presentable {
+public protocol AnyCoordinator: Presentable {
     
     /// Parent coordinator or nil if there is no one
     var parent: AnyCoordinator? { get set }
