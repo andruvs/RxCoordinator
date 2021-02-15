@@ -17,9 +17,11 @@ internal class TransitionQueue {
     
     func append(_ task: TransitionTask) {
         queue.async { [weak self] in
-            self?.tasks.append(task)
+            guard let self = self else { return }
+            
+            self.tasks.append(task)
+            self.checkQueue()
         }
-        checkQueue()
     }
     
     func checkQueue(reset: Bool = false) {
@@ -36,10 +38,11 @@ internal class TransitionQueue {
             
             self.isRunning = true
             
-            let task = self.tasks.removeFirst()
+            let task = self.tasks[0]
             
-            task.execute { [weak self] in
-                self?.checkQueue(reset: true)
+            task.execute {
+                self.tasks.removeFirst()
+                self.checkQueue(reset: true)
             }
         }
     }
