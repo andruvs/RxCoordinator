@@ -4,6 +4,6 @@
 target 'RxCoordinator' do
   use_frameworks!
 
-  pod 'RxSwift', '>=5'
+  pod 'RxSwift', '>=6'
 
 end

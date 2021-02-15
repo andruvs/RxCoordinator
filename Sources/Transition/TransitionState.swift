@@ -17,7 +17,7 @@ public class TransitionState {
     
     private let _completed = PublishSubject<Void>()
     public var completed: Completable {
-        return _completed.ignoreElements()
+        return _completed.ignoreElements().asCompletable()
     }
     
     internal func onCompleted() {
