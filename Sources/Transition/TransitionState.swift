@@ -20,12 +20,17 @@ public class TransitionState {
         return _completed.ignoreElements().asCompletable()
     }
     
+    private let _error = PublishSubject<TransitionError>()
+    public var error: Observable<TransitionError> {
+        return _error.asObservable()
+    }
+    
     internal func onCompleted() {
         _completed.onCompleted()
     }
     
     internal func onError(_ error: TransitionError) {
-        _completed.onError(error)
+        _error.onNext(error)
     }
     
 }

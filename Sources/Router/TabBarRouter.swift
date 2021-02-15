@@ -25,6 +25,7 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -43,6 +44,7 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -50,6 +52,7 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
                 
                 if index >= viewControllers.count {
                     state.onError(.outOfBoundaries)
+                    state.onCompleted()
                     return
                 }
                 
@@ -68,6 +71,7 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -75,6 +79,7 @@ public class TabBarRouter: BaseRouter<UITabBarController> {
                 
                 if index >= count {
                     state.onError(.outOfBoundaries)
+                    state.onCompleted()
                     return
                 }
                 

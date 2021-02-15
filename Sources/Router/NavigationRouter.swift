@@ -33,6 +33,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -44,6 +45,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
             
@@ -51,6 +53,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 
                 if viewController is UINavigationController {
                     state.onError(.isNavigationController)
+                    state.onCompleted()
                     return
                 }
                 
@@ -67,6 +70,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -77,6 +81,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                     
                     if viewController is UINavigationController {
                         state.onError(.isNavigationController)
+                        state.onCompleted()
                         return
                     }
                     
@@ -94,6 +99,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -101,11 +107,13 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 
                 if viewController is UINavigationController {
                     state.onError(.isNavigationController)
+                    state.onCompleted()
                     return
                 }
                 
                 if self.rootViewController.viewControllers.contains(viewController) {
                     state.onError(.alreadyPushed)
+                    state.onCompleted()
                     return
                 }
             
@@ -117,6 +125,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -131,11 +140,13 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 
                 if viewController is UINavigationController {
                     state.onError(.isNavigationController)
+                    state.onCompleted()
                     return
                 }
                 
                 if viewControllers.contains(viewController) {
                     state.onError(.alreadyPushed)
+                    state.onCompleted()
                     return
                 }
                 
@@ -154,6 +165,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -171,6 +183,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -178,6 +191,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
                 
                 guard let index = self.rootViewController.viewControllers.lastIndex(of: viewController) else {
                     state.onError(.notFound)
+                    state.onCompleted()
                     return
                 }
                 
@@ -196,6 +210,7 @@ public class NavigationRouter: BaseRouter<UINavigationController> {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 

@@ -47,6 +47,7 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -54,6 +55,7 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
                 
                 if let presentedViewController = self.rootViewController.presentedViewController, presentedViewController === viewController {
                     state.onError(.alreadyPresented)
+                    state.onCompleted()
                     return
                 }
                 
@@ -72,6 +74,7 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
@@ -79,6 +82,7 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
                 
                 if let presentedViewController = self.rootViewController.presentedViewController, presentedViewController === viewController {
                     state.onError(.alreadyPresented)
+                    state.onCompleted()
                     return
                 }
                 
@@ -101,11 +105,13 @@ public class BaseRouter<T: UIViewController>: NSObject, Router {
             return { [weak self] state in
                 guard let self = self else {
                     state.onError(.inconsistentState)
+                    state.onCompleted()
                     return
                 }
                 
                 guard let viewController = self.rootViewController.presentedViewController else {
                     state.onError(.nothingPresented)
+                    state.onCompleted()
                     return
                 }
                 
