@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol Presentable {
+public protocol Presentable: AnyObject {
     func toPresentable() -> UIViewController
 }
 
